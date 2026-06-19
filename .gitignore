@@ -32,6 +32,3 @@ node_modules/
 
 # Composer
 composer.lock
-
-# Package lock
-package-lock.json
