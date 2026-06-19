@@ -1,0 +1,57 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "blockparty/post-sharing-button",
+  "version": "1.0.0",
+  "title": "Post Sharing Button",
+  "category": "widgets",
+  "description": "Give users the opportunity to share your post with a single click.",
+  "example": {},
+  "attributes": {
+    "copyLabel": {
+      "type": "string",
+      "default": ""
+    },
+    "copiedLabel": {
+      "type": "string",
+      "default": ""
+    },
+    "shareLabel": {
+      "type": "string",
+      "default": ""
+    },
+    "showIcon": {
+      "type": "boolean",
+      "default": true
+    },
+    "iconPosition": {
+      "type": "string",
+      "default": "left",
+      "enum": [
+        "left",
+        "right"
+      ]
+    },
+    "displaySettings": {
+      "type": "object",
+      "default": {
+        "desktop": {
+          "copy": true,
+          "share": true
+        },
+        "mobile": {
+          "copy": true,
+          "share": true
+        }
+      }
+    }
+  },
+  "supports": {
+    "html": false
+  },
+  "textdomain": "blockparty-post-sharing",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "viewScript": "file:./view.js"
+}
