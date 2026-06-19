@@ -1,12 +1,82 @@
 /**
  * The following styles get applied both on the front of your site
  * and in the editor.
- *
- * Replace them with your own styles or remove the file completely.
  */
 
-.wp-block-create-block-blockparty-post-sharing {
-	background-color: #21759b;
-	color: #fff;
-	padding: 2px;
+.wp-block-blockparty-post-sharing-button {
+	--wp-block-blockparty-post-sharing-buttons-direction: row;
+	--wp-block-blockparty-post-sharing-buttons-align: stretch;
+	--wp-block-blockparty-post-sharing-buttons-gap: 0.5rem;
+	--wp-block-blockparty-post-sharing-button-gap: 0.5rem;
+	--wp-block-blockparty-post-sharing-button-icon-size: 1.25rem;
+	--wp-block-blockparty-post-sharing-button-icon-color: currentColor;
+	--wp-block-blockparty-post-sharing-button-copy-icon: url("./img/link.svg");
+	--wp-block-blockparty-post-sharing-button-share-icon: url("./img/share.svg");
+	--wp-block-blockparty-post-sharing-button-check-icon: url("./img/check.svg");
+
+	&__actions {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: var(--wp-block-blockparty-post-sharing-buttons-align, stretch);
+		flex-direction: var(--wp-block-blockparty-post-sharing-buttons-direction, row);
+		gap: var(--wp-block-blockparty-post-sharing-buttons-gap, 0.5rem);
+	}
+
+	&__copy,
+	&__share {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--wp-block-blockparty-post-sharing-button-gap, 0.5rem);
+		cursor: pointer;
+	}
+
+	&.has-icon-position-right &__copy,
+	&.has-icon-position-right &__share {
+		flex-direction: row-reverse;
+	}
+
+	&.has-no-icons &__icon {
+		display: none;
+	}
+
+	&__icon {
+		display: block;
+		flex-shrink: 0;
+		width: var(--wp-block-blockparty-post-sharing-button-icon-size, 1.25rem);
+		height: var(--wp-block-blockparty-post-sharing-button-icon-size, 1.25rem);
+		background-color: var(
+			--wp-block-blockparty-post-sharing-button-icon-color,
+			currentColor
+		);
+		mask-repeat: no-repeat;
+		mask-position: center;
+		mask-size: contain;
+	}
+
+	&__copy .wp-block-blockparty-post-sharing-button__icon {
+		mask-image: var(--wp-block-blockparty-post-sharing-button-copy-icon);
+	}
+
+	&__copy.is-copied .wp-block-blockparty-post-sharing-button__icon {
+		mask-image: var(--wp-block-blockparty-post-sharing-button-check-icon);
+	}
+
+	&__share .wp-block-blockparty-post-sharing-button__icon {
+		mask-image: var(--wp-block-blockparty-post-sharing-button-share-icon);
+	}
+
+	&__status {
+		margin: 0.5rem 0 0;
+	}
+
+	.sr-only {
+		border: 0;
+		clip: rect(0 0 0 0);
+		height: 1px;
+		margin: -1px;
+		overflow: hidden;
+		padding: 0;
+		position: absolute;
+		width: 1px;
+	}
 }
