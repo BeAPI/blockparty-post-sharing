@@ -21,8 +21,12 @@ async function copyToClipboard( text ) {
 	textarea.style.left = '-9999px';
 	document.body.appendChild( textarea );
 	textarea.select();
-	document.execCommand( 'copy' );
+	const copied = document.execCommand( 'copy' );
 	document.body.removeChild( textarea );
+
+	if ( ! copied ) {
+		throw new Error( 'Unable to copy to clipboard.' );
+	}
 }
 
 /**
@@ -118,6 +122,10 @@ function initBlock( block ) {
 				}
 
 				if ( navigator.canShare && ! navigator.canShare( shareData ) ) {
+					showStatus(
+						status,
+						__( 'Unable to share', 'blockparty-post-sharing' )
+					);
 					return;
 				}
 
