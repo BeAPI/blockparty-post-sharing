@@ -1,30 +1,72 @@
 <?php
 /**
  * Plugin Name:       Blockparty Post Sharing
- * Description:       Example block scaffolded with Create Block tool.
+ * Description:       Add a block to copy and share the current post URL.
  * Version:           1.0.0
  * Requires at least: 6.8
  * Requires PHP:      8.1
- * Author:            The WordPress Contributors
+ * Author:            BeAPI
+ * Author URI:        https://beapi.fr
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       blockparty-post-sharing
+ * Domain Path:       /languages
  *
- * @package CreateBlock
+ * @package Blockparty\PostSharing
  */
+
+namespace Blockparty\PostSharing;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
-/**
- * Registers the block(s) metadata from the `blocks-manifest.php` and registers the block type(s)
- * based on the registered block metadata. Behind the scenes, it registers also all assets so they can be enqueued
- * through the block editor in the corresponding context.
- *
- * @see https://make.wordpress.org/core/2025/03/13/more-efficient-block-type-registration-in-6-8/
- * @see https://make.wordpress.org/core/2024/10/17/new-block-type-registration-apis-to-improve-performance-in-wordpress-6-7/
- */
-function create_block_blockparty_post_sharing_block_init() {
-	wp_register_block_types_from_metadata_collection( __DIR__ . '/build', __DIR__ . '/build/blocks-manifest.php' );
+
+if ( is_readable( __DIR__ . '/vendor/autoload.php' ) ) {
+	include_once __DIR__ . '/vendor/autoload.php';
 }
-add_action( 'init', 'create_block_blockparty_post_sharing_block_init' );
+
+define( 'BLOCKPARTY_POST_SHARING_VERSION', '1.0.0' );
+define( 'BLOCKPARTY_POST_SHARING_URL', plugin_dir_url( __FILE__ ) );
+define( 'BLOCKPARTY_POST_SHARING_DIR', plugin_dir_path( __FILE__ ) );
+define( 'BLOCKPARTY_POST_SHARING_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
+
+/**
+ * Bootstrap the plugin.
+ */
+function init() {
+	load_plugin_textdomain(
+		'blockparty-post-sharing',
+		false,
+		dirname( BLOCKPARTY_POST_SHARING_PLUGIN_BASENAME ) . '/languages'
+	);
+
+	register_block_type(
+		BLOCKPARTY_POST_SHARING_DIR . 'build/blockparty-post-sharing',
+		[
+			'render_callback' => [ BlockRenderer::class, 'render' ],
+		]
+	);
+
+	wp_set_script_translations(
+		'blockparty-post-sharing-button-editor-script',
+		'blockparty-post-sharing',
+		BLOCKPARTY_POST_SHARING_DIR . 'languages'
+	);
+
+	wp_set_script_translations(
+		'blockparty-post-sharing-button-view-script',
+		'blockparty-post-sharing',
+		BLOCKPARTY_POST_SHARING_DIR . 'languages'
+	);
+}
+
+add_action( 'init', __NAMESPACE__ . '\\init', 0 );
+
+/**
+ * Enqueue responsive display styles in the editor and on the front end.
+ */
+function enqueue_responsive_display_styles() {
+	ResponsiveDisplay::enqueue_styles();
+}
+
+add_action( 'enqueue_block_assets', __NAMESPACE__ . '\\enqueue_responsive_display_styles' );
